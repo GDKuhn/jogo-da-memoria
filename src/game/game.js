@@ -104,6 +104,26 @@ let game = {
 			[this.cards[randomIndex], this.cards[currentIndex]] = [this.cards[currentIndex], this.cards[randomIndex]];
 		}
 	},
+
+	flipCard: function (cardID, gameOverCallback, noMatchCallback) {
+		if (this.setCard(cardID)) {
+			if (this.secondCard) {
+				if (this.checkMatch()) {
+					this.clearCards();
+					if (this.checkGameOver()) {
+						//GAME OVER
+						gameOverCallback();
+					}
+				} else {
+					setTimeout(() => {
+						//NO MATCH
+						this.unflipCards();
+						noMatchCallback();
+					}, 500);
+				}
+			}
+		}
+	},
 };
 
 export default game;
